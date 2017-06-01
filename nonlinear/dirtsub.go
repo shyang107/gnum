@@ -441,7 +441,7 @@ func Sroot(f func(float64) float64, xini, xfin, dx, eps float64, itmax int, flmt
 	}
 	dxx := (xfin - xini) / 16.0
 	if dxx != 0.0 {
-		dxx = sign(math.Abs(dx), xfin-xini)
+		dxx = math.Copysign(math.Abs(dx), xfin-xini)
 	}
 	//-----------------------------------------------------
 	var buf xzeroParameters

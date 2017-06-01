@@ -1,4 +1,4 @@
-package num
+package gnum
 
 import (
 	"math"
@@ -6,10 +6,15 @@ import (
 )
 
 const (
-	Space       = ' '
-	AlignLeft   = 1
-	AlignCenter = 0
-	AlignRight  = -1
+	Space = ' '
+)
+
+type Alignment byte
+
+const (
+	AlignLeft   Alignment = itoa // 0
+	AlignCenter                  // 1
+	AlignRight                   //2
 )
 
 // Spaces returns the number of spaces
@@ -34,7 +39,7 @@ func Spaces(num int) string {
 // outputs
 //	rstr		: the return string
 //	err			: the error if therer are errors
-func Hstring(str string, explen int, fillchar byte, alg int) (rstr string) {
+func Hstring(str string, explen int, fillchar byte, alg Alignment) (rstr string) {
 	lenstr := len(str)
 	if lenstr > explen {
 		return str[:explen]
@@ -55,9 +60,6 @@ func Hstring(str string, explen int, fillchar byte, alg int) (rstr string) {
 }
 
 // sign : sign(A,B) returns the value of A with the sign of B.
-func sign(a, b float64) float64 {
-	if b < 0 {
-		return -math.Abs(a)
-	}
-	return math.Abs(a)
+func Sign(a, b float64) float64 {
+	return math.Copysign(a, b)
 }

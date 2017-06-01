@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_romberg(t *testing.T) {
+func Test_Romberg(t *testing.T) {
 	type args struct {
 		xa  float64
 		xb  float64
@@ -27,11 +27,16 @@ func Test_romberg(t *testing.T) {
 			args{-1.0, 1.0, Fb, 1.0e-6},
 			0.602337357879467,
 		},
+		{
+			"Case 3 : f(x) = 1/x",
+			args{1.0, 3.0, Fc, 1.0e-6},
+			1.098612289805927,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotArea := romberg(tt.args.xa, tt.args.xb, tt.args.f, tt.args.eps); gotArea != tt.wantArea {
-				t.Errorf("romberg() = %v, want %v", gotArea, tt.wantArea)
+			if gotArea := Romberg(tt.args.xa, tt.args.xb, tt.args.f, tt.args.eps); gotArea != tt.wantArea {
+				t.Errorf("Romberg() = %v, want %v", gotArea, tt.wantArea)
 			}
 		})
 	}
@@ -42,4 +47,7 @@ func Fa(x float64) float64 {
 }
 func Fb(x float64) float64 {
 	return x * math.Sin(x)
+}
+func Fc(x float64) float64 {
+	return 1.0 / x
 }
