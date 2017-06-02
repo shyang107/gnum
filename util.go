@@ -1,8 +1,12 @@
 package gnum
 
 import (
+	"fmt"
 	"math"
+	"reflect"
+	"runtime"
 	"strings"
+	"time"
 )
 
 const (
@@ -62,4 +66,21 @@ func Hstring(str string, explen int, fillchar byte, alg Alignment) (rstr string)
 // sign : sign(A,B) returns the value of A with the sign of B.
 func Sign(a, b float64) float64 {
 	return math.Copysign(a, b)
+}
+
+// GetFunctionName get the name of function and return
+func GetFunctionName(i interface{}) string {
+	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
+}
+
+func timedSumFunc(f SumFunc) SumFunc {
+	return func(start, end int64) int64 {
+
+		defer func(t time.Time) {
+			fmt.Printf("--- Time Elapsed (%s): %v ---\n",
+				getFunctionName(f), time.Since(t))
+		}(time.Now())
+
+		return f(start, end)
+	}
 }
